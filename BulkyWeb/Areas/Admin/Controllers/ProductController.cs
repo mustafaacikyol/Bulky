@@ -1,6 +1,7 @@
 ﻿using BulkyBook.DataAccess.Data;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -23,28 +24,49 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+            //IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category
+            //    .GetAll().Select(u => new SelectListItem
+            //    {
+            //        Text = u.Name,
+            //        Value = u.Id.ToString()
+            //    });
+            //ViewBag.CategoryList = CategoryList;
+
+            ProductVM productVM = new()
+            {
+                CategoryList = _unitOfWork.Category
+                .GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                Product = new Product()
+            };
+            return View(productVM);
+        }
+        [HttpPost]
+        public IActionResult Create(ProductVM productVM)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Product.Add(productVM.Product);
+                _unitOfWork.Save();
+                TempData["success"] = "Product created successfully";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+
+                productVM.CategoryList = _unitOfWork.Category
                 .GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
                 });
-            ViewBag.CategoryList = CategoryList;
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Product obj)
-        {
+                return View(productVM);
 
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Add(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Product created successfully";
-                return RedirectToAction("Index");
             }
-
-            return View();
 
         }
 
