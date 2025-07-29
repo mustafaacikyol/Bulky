@@ -1,11 +1,12 @@
 ﻿@model Product
 
+<div class="pb-2">
+    <h2 class="text-primary">Delete Product</h2>
+    <hr />
+</div>
+
 <form method="post">
     <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary">Delete Product</h2>
-            <hr />
-        </div>
         <div class="row mb-3 p-1">
             <label asp-for="Title" class="p-0"></label>
             <input asp-for="Title" type="type" disabled class="form-control" />
