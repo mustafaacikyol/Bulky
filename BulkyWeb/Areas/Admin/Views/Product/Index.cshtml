@@ -41,6 +41,9 @@
                 <th class="text-center">
                     Price100
                 </th>
+                <th class="text-center">
+                    Category
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -72,6 +75,7 @@
                     <td>
                         @obj.Price100
                     </td>
+                    <td></td>
                     <td>
                         <div class="w-50 btn-group" role="group">
                             <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
