@@ -7,68 +7,77 @@
 
 <form method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Product.Id" />
-    <div class="border p-3 mt-4">
-        <div class="row mb-3 p-1">
-            <label asp-for ="Product.Title" class="p-0"></label>
-            <input asp-for="Product.Title" type="type" class="form-control" />
-            <span asp-validation-for="Product.Title" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.Description" class="p-0"></label>
-            <textarea asp-for="Product.Description" type="type" class="form-control" ></textarea>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.ISBN" class="p-0"></label>
-            <input asp-for="Product.ISBN" type="type" class="form-control" />
-            <span asp-validation-for="Product.ISBN" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.Author" class="p-0"></label>
-            <input asp-for="Product.Author" type="type" class="form-control" />
-            <span asp-validation-for="Product.Author" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.ListPrice" class="p-0"></label>
-            <input asp-for="Product.ListPrice" type="type" class="form-control" />
-            <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.Price" class="p-0"></label>
-            <input asp-for="Product.Price" type="type" class="form-control" />
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.Price50" class="p-0"></label>
-            <input asp-for="Product.Price50" type="type" class="form-control" />
-            <span asp-validation-for="Product.Price50" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.Price100" class="p-0"></label>
-            <input asp-for="Product.Price100" type="type" class="form-control" />
-            <span asp-validation-for="Product.Price100" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.CategoryId" class="p-0"></label>
-            <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 shadow" style="height:45px;">
-                <option disabled selected>--Select category--</option>
-            </select>
-            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Product.ImageUrl" class="p-0"></label>
-            <input type="file" name="file" asp-for="Product.ImageUrl" class="form-control" />
-        </div>
-        <div class="row mt-5">
-            <div class="col-4 offset-4 text-center">
-                @if(Model.Product.Id != 0)
-                {
-                    <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
-                } 
-                else
-                {
-                    <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
-                }
+    <input type="hidden" asp-for="Product.ImageUrl" />
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4">
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.Title" class="p-0"></label>
+                    <input asp-for="Product.Title" type="type" class="form-control" />
+                    <span asp-validation-for="Product.Title" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.Description" class="p-0"></label>
+                    <textarea asp-for="Product.Description" type="type" class="form-control"></textarea>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.ISBN" class="p-0"></label>
+                    <input asp-for="Product.ISBN" type="type" class="form-control" />
+                    <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.Author" class="p-0"></label>
+                    <input asp-for="Product.Author" type="type" class="form-control" />
+                    <span asp-validation-for="Product.Author" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.ListPrice" class="p-0"></label>
+                    <input asp-for="Product.ListPrice" type="type" class="form-control" />
+                    <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.Price" class="p-0"></label>
+                    <input asp-for="Product.Price" type="type" class="form-control" />
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.Price50" class="p-0"></label>
+                    <input asp-for="Product.Price50" type="type" class="form-control" />
+                    <span asp-validation-for="Product.Price50" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.Price100" class="p-0"></label>
+                    <input asp-for="Product.Price100" type="type" class="form-control" />
+                    <span asp-validation-for="Product.Price100" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.CategoryId" class="p-0"></label>
+                    <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 shadow" style="height:45px;">
+                        <option disabled selected>--Select category--</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                </div>
+                <div class="row mb-3 p-1">
+                    <label asp-for="Product.ImageUrl" class="p-0"></label>
+                    <input type="file" name="file" asp-for="Product.ImageUrl" class="form-control" />
+                </div>
+                <div class="row mt-5">
+                    <div class="col-4 offset-4 text-center">
+                        @if (Model.Product.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+                        }
+                    </div>
+                </div>
             </div>
+
+        </div>
+        <div class="col-2">
+            <img src="@Model.Product.ImageUrl" width="100%" style="border-radius:10px; border:1px solid #bbb9b9" />
         </div>
     </div>
 </form>
