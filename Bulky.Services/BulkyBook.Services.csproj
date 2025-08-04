@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bulky.DataAccess\BulkyBook.DataAccess.csproj" />
-    <ProjectReference Include="..\Bulky.Models\BulkyBook.Models.csproj" />
   </ItemGroup>
 
 </Project>
