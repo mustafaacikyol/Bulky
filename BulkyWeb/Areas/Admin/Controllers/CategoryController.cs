@@ -4,6 +4,8 @@ using BulkyBook.Models;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using BulkyBook.Services;
+using BulkyBook.Services.IServices;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
@@ -11,15 +13,15 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
     [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public CategoryController(IUnitOfWork unitOfWork)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _unitOfWork = unitOfWork;
+            _categoryService = categoryService;
         }
 
         public IActionResult Index()
         {
-            List<Category> CategoryList = _unitOfWork.Category.GetAll().ToList();
+            List<Category> CategoryList = _categoryService.GetAll().ToList();
             return View(CategoryList);
         }
 
@@ -27,23 +29,21 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
+            Boolean isCreated = _categoryService.Create(obj);
+            if (isCreated)
             {
-                ModelState.AddModelError("name", "Display Order cannot be the same with name.");
-            }
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Category.Add(obj);
-                _unitOfWork.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
-
-            return View();
-
+            else
+            {
+                ModelState.AddModelError("", "Failed to create category. Please check the input data.");
+                return View();
+            }
         }
 
         public IActionResult Edit(int id)
@@ -52,26 +52,28 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
+
+            Category? categoryFromDb = _categoryService.GetById(id);
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
             return View(categoryFromDb);
         }
+
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Category updated successfully";
-                return RedirectToAction("Index");
+                Boolean isUpdated = _categoryService.Update(obj);
+                if(isUpdated)
+                {
+                    TempData["success"] = "Category updated successfully";
+                    return RedirectToAction("Index");
+                }
             }
-
             return View();
-
         }
 
         public IActionResult Delete(int id)
@@ -80,7 +82,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
+            Category? categoryFromDb = _categoryService.GetById(id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -91,15 +93,13 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int id)
         {
-            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
-            if (obj == null)
+            Boolean isDeleted = _categoryService.Delete(id);
+            if(isDeleted)
             {
-                return NotFound();
+                TempData["success"] = "Category deleted successfully";
+                return RedirectToAction("Index");
             }
-            _unitOfWork.Category.Remove(obj);
-            _unitOfWork.Save();
-            TempData["success"] = "Category deleted successfully";
-            return RedirectToAction("Index");
+            return View();
 
         }
 
